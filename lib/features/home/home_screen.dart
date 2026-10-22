@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/config.dart';
 import '../admin/rider_approvals_screen.dart';
+import '../customer/customer_home_screen.dart';
 import '../rider/rider_registration_screen.dart';
 
 /// Placeholder shell. Next steps replace the body:
@@ -43,6 +44,14 @@ class HomeScreen extends StatelessWidget {
             children: [
               Text('Hello ${profile['full_name']} ($role)', textAlign: TextAlign.center),
               const SizedBox(height: 24),
+              if (role == 'customer' || role == 'rider') ...[
+                FilledButton.icon(
+                  onPressed: () => open(const CustomerHomeScreen()),
+                  icon: const Icon(Icons.local_taxi),
+                  label: const Text('Request a ride'),
+                ),
+                const SizedBox(height: 12),
+              ],
               if (role == 'admin')
                 FilledButton.icon(
                   onPressed: () => open(const RiderApprovalsScreen()),
