@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/config.dart';
+import 'home_screen.dart';
 
 /// Loads the signed-in user's profile, asks for a name on first login,
 /// then shows the home screen for their role.
@@ -47,7 +48,7 @@ class _AppGateState extends State<AppGate> {
         final profile = snap.data!;
         final name = (profile['full_name'] as String?)?.trim() ?? '';
         if (name.isEmpty) return _ProfileSetup(onDone: _reload);
-        return HomeScreen(profile: profile);
+        return HomeScreen(profile: profile, onRefresh: _reload);
       },
     );
   }
@@ -124,33 +125,6 @@ class _ProfileSetupState extends State<_ProfileSetup> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-/// Placeholder shell. Next steps replace the body:
-///  customer -> map + request ride, rider -> online toggle + offers.
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key, required this.profile});
-  final Map<String, dynamic> profile;
-
-  @override
-  Widget build(BuildContext context) {
-    final role = profile['role'] as String;
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('OKADA'),
-        actions: [
-          IconButton(
-            tooltip: 'Sign out',
-            icon: const Icon(Icons.logout),
-            onPressed: () => supabase.auth.signOut(),
-          ),
-        ],
-      ),
-      body: Center(
-        child: Text('Hello ${profile['full_name']} ($role)'),
       ),
     );
   }
